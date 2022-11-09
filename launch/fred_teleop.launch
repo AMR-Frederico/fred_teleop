@@ -1,6 +1,13 @@
 <launch>
 
-  <node name="ros_serial_pot_node" pkg ="rosserial_python" type="serial_node.py"/>
+   <node pkg="rosserial_server" type="serial_node" name="serial_node_pot">
+    <rosparam>
+      port: /dev/ttyUSB0
+      require:
+        publishers: [ power/status/pwm/right, power/status/pwm/left, power/status/speed/angular/right, power/status/speed/angular/left, power/status/speed/rpm/right, power/status/speed/rpm/left,power/status/distance/ticks/right,power/status/distance/ticks/left]
+        subscribers: [ cmd_wheels,cmd_right_wheel,cmd_vel,cmd/led_strip/color]
+    </rosparam>
+  </node>
   <node name="joy_node" pkg = "joy" type = "joy_node"/>
   <node name="teleop_node" pkg = "teleop_twist_joy" type="teleop_node">
     <param name="scale_linear" value="20"/>  
